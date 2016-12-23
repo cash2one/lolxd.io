@@ -1,8 +1,9 @@
 import json
 import requests
+import config
 
 
-API_KEY = ''
+API_KEY = config.API_KEY
 URL = 'https://euw.api.pvp.net/api/lol/{region}/{version}/{query}'
 LIVE_URL = 'https://euw.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/{}/{}?api_key=' + API_KEY
 
