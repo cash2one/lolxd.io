@@ -1,8 +1,7 @@
 import json
 import requests
 
-
-API_KEY = ''
+API_KEY = 'SECRET FORMULA SAUCE'
 URL = 'https://euw.api.pvp.net/api/lol/{region}/{version}/{query}'
 LIVE_URL = 'https://euw.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/{}/{}?api_key=' + API_KEY
 
