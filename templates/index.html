@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block head %}
+<script type="text/javascript">
+function redirect() {
+    summoner_name = document.getElementById("summoner_name");
+    region = document.getElementById("region_dropdown");
+    region_text = region.options[region.selectedIndex].text;
+    window.location = window.location + region_text + "/" + summoner_name.value;
+}
+</script>
+{% endblock %}
+{% block content %}
+<h1>lolxd</h1>
+<h3>Advanced lookup service xd</h3>
+
+<form action="javascript:redirect();">
+    <input type="text" value="" placeholder="Summoner Name" id="summoner_name">
+    <select id="region_dropdown">
+        <option disabled>Europe:</option>
+        <option>EU West</option>
+        <option>EU Nordic & East</option>
+        <option>Mother Russia</option>
+        <option>Turkey</option>
+        <option disabled>America:</option>
+        <option>North America</option>
+        <option>Brazil huehuehue</option>
+        <option>Latin America North</option>
+        <option>Latin America South</option>
+        <option disabled>Asia & Oceania:</option>
+        <option>Japan</option>
+        <option>Korea</option>
+        <option>Oceania</option>
+    </select>
+</form>
+
+{% endblock %}
+
