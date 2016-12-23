@@ -14,5 +14,11 @@ def look_up(region, summoner_name):
     return 'Hello {} from {}'.format(summoner_name, region)
 
 
+@app.route('/random')
+def random_look_up():
+    return render_template('random_game.html')
+
+
+
 if __name__ == '__main__':
     app.run()

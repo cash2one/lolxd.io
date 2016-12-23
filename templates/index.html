@@ -7,6 +7,10 @@ function redirect() {
     region_text = region.options[region.selectedIndex].text;
     window.location = window.location + region_text + "/" + summoner_name.value;
 }
+
+function redirect_random() {
+    window.location = window.location + 'random'
+ }
 </script>
 {% endblock %}
 {% block content %}
@@ -32,6 +36,11 @@ function redirect() {
         <option>Oceania</option>
     </select>
 </form>
+
+<form action="javascript:redirect_random();">
+    <button>Random Game</button>
+</form>
+
 
 {% endblock %}
 
