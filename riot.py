@@ -8,6 +8,7 @@
     :copyright: (c) 2016 by Mads Damgaard and Carl Bordum Hansen.
     :license: MIT, see LICENSE for more details.
 """
+from functools import lru_cache
 import requests
 import config
 
@@ -29,7 +30,7 @@ platforms = {
 }
 
 
-def base_request(query, region, static=False, **kwargs):
+def base_request(query, proxy, **kwargs):
     """Make a request to the Riot API.
 
     :rtype: dict
@@ -37,7 +38,6 @@ def base_request(query, region, static=False, **kwargs):
     params = {'api_key': API_KEY}
     for key, value in kwargs.items():
         params[key] = value
-    proxy = 'global' if static else region
     url = f'https://{proxy}.api.pvp.net/{query}'
     r = requests.get(url, params=params)
     r.raise_for_status()
@@ -91,3 +91,12 @@ def get_current_game(region, summoner_name):
     platform_id = platforms[region]
     query = f'consumer/getSpectatorGameInfo/{platform_id}/{summoner_id}'
     return observer_mode_request(region, query)
+
+
+@lru_cache()
+def get_item_name(item_id, version='v1.2'):
+    """Return the name of an item.
+
+    :rtype: str
+    """
+    return base_request(f'api/lol/static-data/euw/{version}/item/{item_id}', 'global')['name']
