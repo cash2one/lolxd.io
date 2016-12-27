@@ -33,16 +33,32 @@ def get_teams(region, summoner_name):
     blue_team = []
     red_team = []
     summoner_name = summoner_name.lower().replace(' ', '')
-    summoner_id = riot.get_summoner_id(summoner_name)
+    summoner_id = riot.get_summoner_id(region, summoner_name)
     current_game = riot.get_current_game(region, summoner_id)
     for player in current_game['participants']:
-        ranked_stats = riot.get_ranked_stats(region, player['summonerId'])
+        champion_id = player['championId']
         player_dict = {
             'summoner_name': player['summonerName'],
-            'champ': riot.get_champion_name(player['championId']),
+            'champ': riot.get_champion_name(champion_id),
             'spell_1': riot.get_summoner_spell_name(player['spell1Id']),
             'spell_2': riot.get_summoner_spell_name(player['spell2Id'])
         }
+        ranked_stats = riot.get_ranked_stats(region, player['summonerId'])
+        for champ in ranked_stats['champions']:
+            if champ['id'] == 0:
+                player_dict['season_wins'] = champ['stats']['totalSessionsWon']
+                player_dict['season_losses'] = champ['stats']['totalSessionsLost']
+                break
+        for champ in ranked_stats['champions']:
+            if not champ['id'] == champion_id:
+                continue
+            player_dict['champ_wins'] = champ['stats']['totalSessionsWon']
+            player_dict['champ_losses'] = champ['stats']['totalSessionsLost']
+            player_dict['avg_kills'] = champ['stats']['totalChampionKills']
+            player_dict['avg_deaths'] = champ['stats']['totalDeathsPerSession']
+            player_dict['avg_assists'] = champ['stats']['totalAssists']
+            break
+
         if player['teamId'] == 100:
             blue_team.append(player_dict)
         else:
@@ -57,15 +73,12 @@ def home():
 
 @app.route('/<region>/<summoner_name>')
 def look_up(region, summoner_name):
-    """Render game.html with a list of players and the recommended starting items, build path
+    """Render game.html with two lists (one of each team) and the recommended starting items, build path
     and skill order according to www.champion.gg.
     """
-    kwargs = {}
-    current_game = riot.get_current_game(region, summoner_name)
-    kwargs['players'] = [player for player in current_game['participants']]
-    for player in kwargs['players']:
-        player['champion'] = riot.get_champion_name(player['championId'])
-    return render_template('game.html', region=region, summoner_name=summoner_name, **kwargs)
+    blue_team, red_team = get_teams(region, summoner_name)
+    return render_template('game.html', region=region, summoner_name=summoner_name,
+                           blue_team=blue_team, red_team=red_team)
 
 
 @app.route('/random')
