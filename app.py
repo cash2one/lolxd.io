@@ -13,6 +13,8 @@ def home():
 @app.route('/<region>/<summoner_name>')
 def look_up(region, summoner_name):
     kwargs = {}
+    current_game = riot.get_current_game(region, summoner_name)
+    kwargs['players'] = [player for player in current_game['participants']]
     return render_template('game.html', region=region, summoner_name=summoner_name, **kwargs)
 
 
@@ -22,4 +24,4 @@ def random_look_up():
 
 
 if __name__ == '__main__':
-    app.run(port=5002)
+    app.run(port=5003)
