@@ -29,14 +29,34 @@ def api_call(query):
 
 
 def get_all_champion_stats():
-    """Query api for all stats for all champions.
+    """Query api for relevant stats for all champions.
 
-    :rtype linked dicts
+    :rtype a dictionary of dictionaries, relevant_stats:
+        relevant_stats{
+            name : str {
+                deaths : double
+                kills : double
+                assists : double
+                winreate : double
+            }
+            ...
+        }
+    Usage:
+        relevant_stats['name']['attribute'] #Returns the attribute of a champion with a given name
+        relevant_stats['name'] #Returns all attributes for a champion with a given name
     """
-    pp = pprint.PrettyPrinter(indent=4)
-    pp.pprint(api_call('stats'))
+    all_champions = api_call('stats')
+    relevant_stats = {}
 
-    champion_stats = []
+    for champion in all_champions:
+        key = champion['name']
+        relevant_stats[key] = {
+            'deaths' : champion['general']['deaths'],
+            'kills' : champion['general']['kills'],
+            'assists' : champion['general']['assists'],
+            'winrate' : champion['general']['winPercent']
+        }
+    return relevant_stats
 
 
 def get_item_set(self):
@@ -72,5 +92,3 @@ def get_skill_order(self):
     url = f'champion/{self.champion_name}/skills/mostPopular'
     return api_call(url)[0]['order']
 
-
-get_all_champion_stats()
