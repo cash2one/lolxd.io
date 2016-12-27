@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    lolxd.championgg.py
-    ~~~~~~~~~~
+    lolxd.champion_gg.py
+    ~~~~~~~~~~~~~~~~~~~~
 
     This module contacts the Champion.gg API.
     Found at http://api.champion.gg/
@@ -14,11 +14,12 @@ import config
 import requests
 import riot
 import pprint
+from functools import lru_cache
 
-API_KEY = config.CHAMPION_API_KEY
+API_KEY = config.CHAMPION_GG_API_KEY
 
 def api_call(query):
-    """Reqeust the json object of a call to the API.
+    """Request the json object of a call to the API.
 
     :rtype dict
     """
@@ -28,6 +29,7 @@ def api_call(query):
     return r.json()
 
 
+@lru_cache()
 def get_all_champion_stats():
     """Query api for relevant stats for all champions.
 
@@ -37,7 +39,7 @@ def get_all_champion_stats():
                 deaths : double
                 kills : double
                 assists : double
-                winreate : double
+                winrate : double
             }
             ...
         }
