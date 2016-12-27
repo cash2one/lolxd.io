@@ -1,4 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>{{summoner_name}}, {{region}}!</h1>
+<h1>{{ summoner_name }}, {{ region }}!</h1>
+
+{% for player in players %}
+  <p>Player: {{ player.summonerName }}</p>
+{% endfor %}
 {% endblock %}
