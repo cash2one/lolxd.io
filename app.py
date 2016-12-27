@@ -59,9 +59,10 @@ def get_teams(region, summoner_name):
             player_dict['avg_deaths'] = champ['stats']['totalDeathsPerSession']
             player_dict['avg_assists'] = champ['stats']['totalAssists']
             break
-        player_dict['gg_avg_kills'] = champion_gg.get_stats()[riot.get_champion_name(champion_id)]['kills']
-        player_dict['gg_avg_deaths'] = champion_gg.get_stats()[riot.get_champion_name(champion_id)]['deaths']
-        player_dict['gg_avg_assists'] = champion_gg.get_stats()[riot.get_champion_name(champion_id)]['assists']
+        champion_avg_stats = champion_gg.get_stats()
+        player_dict['gg_avg_kills'] = champion_avg_stats[riot.get_champion_name(champion_id)]['kills']
+        player_dict['gg_avg_deaths'] = champion_avg_stats[riot.get_champion_name(champion_id)]['deaths']
+        player_dict['gg_avg_assists'] = champion_avg_stats[riot.get_champion_name(champion_id)]['assists']
 
 
         if player['teamId'] == 100:
