@@ -62,6 +62,15 @@ def observer_mode_request(region, query):
     return base_request(url, region)
 
 
+@lru_cache()
+def static_request(query, version):
+    """Make a request to lol-static-data.
+
+    :rtype: dict
+    """
+    return base_request(f'api/lol/static-data/euw/{version}/{query}', 'global')
+
+
 def get_summoner_id(region, summoner_name, version='v1.4'):
     """Return the corresponding summoner ID.
 
@@ -72,31 +81,44 @@ def get_summoner_id(region, summoner_name, version='v1.4'):
     return r[summoner_name.lower()]['id']
 
 
-def get_ranked_stats(region, summoner_name, version='v1.3'):
+def get_ranked_stats(region, summoner_id, version='v1.3'):
     """Return the ranked stats of summoner_name.
 
     :rtype: dict
     """
-    summoner_id = get_summoner_id(region, summoner_name)
     query = f'stats/by-summoner/{summoner_id}/ranked'
     return api_request(region, version, query)
 
 
-def get_current_game(region, summoner_name):
-    """Return the information on *summoner_name*s current game.
+def get_current_game(region, summoner_id):
+    """Return all available information on current game.
 
     :rtype: dict
     """
-    summoner_id = get_summoner_id(region, summoner_name)
     platform_id = platforms[region]
     query = f'consumer/getSpectatorGameInfo/{platform_id}/{summoner_id}'
     return observer_mode_request(region, query)
 
 
-@lru_cache()
 def get_item_name(item_id, version='v1.2'):
     """Return the name of an item.
 
     :rtype: str
     """
-    return base_request(f'api/lol/static-data/euw/{version}/item/{item_id}', 'global')['name']
+    return static_request(f'item/{item_id}', version)['name']
+
+
+def get_champion_name(champion_id, version='v1.2'):
+    """Return the name of a champion.
+
+    :rtype: str
+    """
+    return static_request(f'champion/{champion_id}', version)['name']
+
+
+def get_summoner_spell_name(spell_id, version='v1.2'):
+    """Return the name of a summoner spell.
+
+    :rtype: str
+    """
+    return static_request(f'summoner-spell/{spell_id}', version)['name']
