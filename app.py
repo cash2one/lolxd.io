@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 import riot
+import champion_gg
 
 
 app = Flask(__name__)
@@ -58,6 +59,10 @@ def get_teams(region, summoner_name):
             player_dict['avg_deaths'] = champ['stats']['totalDeathsPerSession']
             player_dict['avg_assists'] = champ['stats']['totalAssists']
             break
+        player_dict['gg_avg_kills'] = champion_gg.get_stats()[riot.get_champion_name(player).upper()]['kills']
+        player_dict['gg_avg_deaths'] = champion_gg.get_stats()[riot.get_champion_name(player).upper()]['deaths']
+        player_dict['gg_avg_assists'] = champion_gg.get_stats()[riot.get_champion_name(player).upper()]['assists']
+
 
         if player['teamId'] == 100:
             blue_team.append(player_dict)

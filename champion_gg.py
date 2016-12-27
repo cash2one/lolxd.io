@@ -30,7 +30,7 @@ def api_call(query):
 
 
 @lru_cache()
-def get_all_champion_stats():
+def get_stats():
     """Query api for relevant stats for all champions.
 
     :rtype a dictionary of dictionaries, relevant_stats:
