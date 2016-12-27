@@ -12,7 +12,7 @@ import requests
 import config
 
 
-API_KEY = config.API_KEY
+API_KEY = config.RIOT_API_KEY
 
 platforms = {
     'br': 'BR1',
