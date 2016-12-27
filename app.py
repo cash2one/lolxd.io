@@ -5,6 +5,51 @@ import riot
 app = Flask(__name__)
 
 
+def get_teams(region, summoner_name):
+    """Return two lists representing the players on blue and red team respectively.
+
+    A player dictionary looks like this:
+        player {
+            summoner_name : str
+            season_wins : int
+            season_losses : int
+            total_wins : int  #: all queues and seasons
+            champ : str
+            champ_wins : int
+            champ_losses : int
+            avg_kills : double
+            avg_deaths : double
+            avg_assists : double
+            gg_avg_kills : double
+            gg_avg_deaths : double
+            gg_avg_assists : double
+            spell_1 : str
+            spell_2 : str
+        }
+
+    :param summoner_name: name of one summoner in the game
+    :rtype: list
+    """
+    blue_team = []
+    red_team = []
+    summoner_name = summoner_name.lower().replace(' ', '')
+    summoner_id = riot.get_summoner_id(summoner_name)
+    current_game = riot.get_current_game(region, summoner_id)
+    for player in current_game['participants']:
+        ranked_stats = riot.get_ranked_stats(region, player['summonerId'])
+        player_dict = {
+            'summoner_name': player['summonerName'],
+            'champ': riot.get_champion_name(player['championId']),
+            'spell_1': riot.get_summoner_spell_name(player['spell1Id']),
+            'spell_2': riot.get_summoner_spell_name(player['spell2Id'])
+        }
+        if player['teamId'] == 100:
+            blue_team.append(player_dict)
+        else:
+            red_team.append(player_dict)
+    return blue_team, red_team
+
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -14,24 +59,6 @@ def home():
 def look_up(region, summoner_name):
     """Render game.html with a list of players and the recommended starting items, build path
     and skill order according to www.champion.gg.
-
-    A player dict should look like this:
-    player {
-        season_wins : int
-        season_losses : int
-        total_wins : int  #: all queues and seasons
-        champ : str
-        champ_wins : int
-        champ_losses : int
-        avg_kills : double
-        avg_deaths : double
-        avg_assists : double
-        gg_avg_kills : double
-        gg_avg_deaths : double
-        gg_avg_assists : double
-        summoner_spell1 : str
-        summoner_spell2 : str
-    }
     """
     kwargs = {}
     current_game = riot.get_current_game(region, summoner_name)
