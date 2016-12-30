@@ -21,7 +21,7 @@ API_KEY = config.CHAMPION_GG_API_KEY
 def api_call(query):
     """Request the json object of a call to the API.
 
-    :rtype dict
+    :rtype: dict
     """
     url = f'http://api.champion.gg/{query}?api_key={API_KEY}'
     r = requests.get(url)
@@ -33,7 +33,7 @@ def api_call(query):
 def get_stats():
     """Query api for relevant stats for all champions.
 
-    :rtype a dictionary of dictionaries, relevant_stats:
+    :rtype: a dictionary of dictionaries, relevant_stats:
         relevant_stats{
             name : str {
                 deaths : double
@@ -43,7 +43,7 @@ def get_stats():
             }
             ...
         }
-    Usage:
+    :Usage:
         relevant_stats['name']['attribute'] #Returns the attribute of a champion with a given name
         relevant_stats['name'] #Returns all attributes for a champion with a given name
     """
@@ -65,7 +65,7 @@ def get_item_set(self):
     """
     Query the API for the most winning item set for the given champion
 
-    :rtype list of strings
+    :rtype: list of strings
     """
     url = f'champion/{self.champion_name}/items/finished/mostWins'
     items = api_call(url)[0]['items']
