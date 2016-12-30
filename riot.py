@@ -71,7 +71,7 @@ def static_request(query, version):
 
     :rtype: dict
     """
-    region = next(region_cycle)
+    region = 'euw' #next(region_cycle)
     return base_request(f'api/lol/static-data/{region}/{version}/{query}', 'global')
 
 
