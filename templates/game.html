@@ -8,11 +8,26 @@ $(document).ready(function(){
 {% endblock %}
 {% block content %}
 <h1>{{ summoner_name }}, {{ region }}!</h1>
-
-{% for player in blue_team %}
-  <div class="blueTeam">
-    <p>{{ player.summoner_name }} is playing {{ player.champ }} with an average KDA of <p data-toggle="tooltip" title="According to champion.gg, the average {{ player.champ }} gets {{ player.gg_avg_kills }} kills per game.">{{ player.avg_kills }}</p>/<p data-toggle="tooltip" title="According to champion.gg, the average {{ player.champ }} gets {{ player.gg_avg_deaths }} kills per game.">{{ player.avg_deaths }}</p>/<p data-toggle="tooltip" title="According to champion.gg, the average {{ player.champ }} gets {{ player.gg_avg_assists }} assists per game.">{{ player.avg_assists }}</p>, {{ champ_wins }} wins and {{ champ.losses }}. He has {{ spell_1 }} on d and {{ spell_2 }} on f.</p>
-    <br>
-  </div>
-{% endfor %}
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Champion</th>
+      <th>Champion Stats</th>
+      <th>KDA</th>
+      <th>Ranked Stats</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for player in blue_team %}
+    <tr>
+      <td>{{ player.summoner_name }}</td>
+      <td>{{ player.champ }}</td>
+      <td><span style="color:green;">{{ player.champ_wins }}</span>/<span style="color:red;">{{ player.champ_losses }}</span></td>
+      <td>{{ player.avg_kills }}/{{ player.avg_deaths }}/{{ player.avg_assists }}</td>
+      <td><span style="color:green;">{{ player.season_wins }}</span>/<span style="color:red;">{{ player.season_losses }}</span></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
