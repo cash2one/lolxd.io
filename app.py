@@ -16,6 +16,7 @@ def get_teams(region, summoner_name):
             season_losses : int
             total_wins : int  #: all queues and seasons
             champ : str
+            champ_key : str
             champ_wins : int
             champ_losses : int
             avg_kills : double
@@ -41,6 +42,7 @@ def get_teams(region, summoner_name):
         player_dict = {
             'summoner_name': player['summonerName'],
             'champ': riot.get_champion_name(champion_id),
+            'champ_key': riot.get_champion_key(champion_id),
             'spell_1': riot.get_summoner_spell_name(player['spell1Id']),
             'spell_2': riot.get_summoner_spell_name(player['spell2Id'])
         }
@@ -55,9 +57,10 @@ def get_teams(region, summoner_name):
                 continue
             player_dict['champ_wins'] = champ['stats']['totalSessionsWon']
             player_dict['champ_losses'] = champ['stats']['totalSessionsLost']
-            player_dict['avg_kills'] = champ['stats']['totalChampionKills']
-            player_dict['avg_deaths'] = champ['stats']['totalDeathsPerSession']
-            player_dict['avg_assists'] = champ['stats']['totalAssists']
+            champ_games = player_dict['champ_wins'] + player_dict['champ_losses']
+            player_dict['avg_kills'] = round(champ['stats']['totalChampionKills'] / champ_games, 1)
+            player_dict['avg_deaths'] = round(champ['stats']['totalDeathsPerSession'] / champ_games, 1)
+            player_dict['avg_assists'] = round(champ['stats']['totalAssists'] / champ_games, 1)
             break
         avg_stats = champion_gg.get_stats()
         player_dict['gg_avg_kills'] = avg_stats[riot.get_champion_name(champion_id)]['kills']
@@ -92,4 +95,4 @@ def random_look_up():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5009)

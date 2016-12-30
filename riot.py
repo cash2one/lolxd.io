@@ -30,7 +30,7 @@ platforms = {
     'jp': 'JP1'
 }
 
-region_cycle = itertools.cycle(platforms.keys())
+# region_cycle = itertools.cycle(platforms.keys())
 
 
 def base_request(query, proxy, **kwargs):
@@ -67,11 +67,11 @@ def observer_mode_request(region, query):
 
 @lru_cache()
 def static_request(query, version):
-    """Make a request to lol-static-data.
+    """Make a request to lol-static-data. These requests does not count against your rate limit.
 
     :rtype: dict
     """
-    region = 'euw' #next(region_cycle)
+    region = 'euw'  # next(region_cycle)
     return base_request(f'api/lol/static-data/{region}/{version}/{query}', 'global')
 
 
@@ -118,6 +118,14 @@ def get_champion_name(champion_id, version='v1.2'):
     :rtype: str
     """
     return static_request(f'champion/{champion_id}', version)['name']
+
+
+def get_champion_key(champion_id, version='v1.2'):
+    """Return the key of a champion.
+
+    :rtype: str
+    """
+    return static_request(f'champion/{champion_id}', version)['key']
 
 
 def get_summoner_spell_name(spell_id, version='v1.2'):
