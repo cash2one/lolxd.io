@@ -9,6 +9,7 @@
     :license: MIT, see LICENSE for more details.
 """
 from functools import lru_cache
+import itertools
 import requests
 import config
 
@@ -28,6 +29,8 @@ platforms = {
     'tr': 'TR1',
     'jp': 'JP1'
 }
+
+region_cycle = itertools.cycle(platforms.keys())
 
 
 def base_request(query, proxy, **kwargs):
@@ -68,7 +71,8 @@ def static_request(query, version):
 
     :rtype: dict
     """
-    return base_request(f'api/lol/static-data/euw/{version}/{query}', 'global')
+    region = next(region_cycle)
+    return base_request(f'api/lol/static-data/{region}/{version}/{query}', 'global')
 
 
 def get_summoner_id(region, summoner_name, version='v1.4'):
