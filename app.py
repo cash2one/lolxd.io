@@ -28,7 +28,7 @@ def get_teams(region, summoner_name):
             spell_2 : str
         }
 
-    :param summoner_name: name of one summoner in the game
+    :param: summoner_name: name of one summoner in the game
     :rtype: list
     """
     blue_team = []
@@ -60,10 +60,9 @@ def get_teams(region, summoner_name):
             player_dict['avg_assists'] = champ['stats']['totalAssists']
             break
         avg_stats = champion_gg.get_stats()
-        player_dict['gg_avg_kills'] = avg_stats[player_dict['champ']]['kills']
-        player_dict['gg_avg_deaths'] = avg_stats[player_dict['champ']]['deaths']
-        player_dict['gg_avg_assists'] = avg_stats[player_dict['champ']]['assists']
-
+        player_dict['gg_avg_kills'] = avg_stats[riot.get_champion_name(champion_id)]['kills']
+        player_dict['gg_avg_deaths'] = avg_stats[riot.get_champion_name(champion_id)]['deaths']
+        player_dict['gg_avg_assists'] = avg_stats[riot.get_champion_name(champion_id)]['assists']
 
         if player['teamId'] == 100:
             blue_team.append(player_dict)
@@ -93,4 +92,4 @@ def random_look_up():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
