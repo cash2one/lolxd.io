@@ -13,10 +13,10 @@
 import config
 import requests
 import riot
-import pprint
 from functools import lru_cache
 
 API_KEY = config.CHAMPION_GG_API_KEY
+
 
 def api_call(query):
     """Request the json object of a call to the API.
@@ -53,10 +53,10 @@ def get_stats():
     for champion in all_champions:
         key = champion['name']
         relevant_stats[key] = {
-            'deaths' : champion['general']['deaths'],
-            'kills' : champion['general']['kills'],
-            'assists' : champion['general']['assists'],
-            'winrate' : champion['general']['winPercent']
+            'deaths': champion['general']['deaths'],
+            'kills': champion['general']['kills'],
+            'assists': champion['general']['assists'],
+            'winrate': champion['general']['winPercent']
         }
     return relevant_stats
 
@@ -69,8 +69,8 @@ def get_item_set(self):
     """
     url = f'champion/{self.champion_name}/items/finished/mostWins'
     items = api_call(url)[0]['items']
-    item_name = [riot.get_item_name(item) for item in items]
-    return(item_name)
+    item_names = [riot.get_item_name(item) for item in items]
+    return item_names
 
 
 def get_starting_items(self):
@@ -82,7 +82,7 @@ def get_starting_items(self):
     url = f'champion/{self.champion_name}/items/starters/mostPopular'
     items = api_call(url)[0]['items']
     item_names = [riot.get_item_name(item) for item in items]
-    return(item_names)
+    return item_names
 
 
 def get_skill_order(self):
@@ -93,4 +93,3 @@ def get_skill_order(self):
     """
     url = f'champion/{self.champion_name}/skills/mostPopular'
     return api_call(url)[0]['order']
-
