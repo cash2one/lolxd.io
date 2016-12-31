@@ -2,7 +2,7 @@
 {% block head %}
 <script type="text/javascript">
 $(document).ready(function() {
-          var bgArray = ['http://i.imgur.com/splhrvZ.jpg', 'http://i.imgur.com/7GC3ouD.jpg', 'http://i.imgur.com/G6ShOQB.jpg]', 'http://i.imgur.com/HlXaF0j.jpg'];
+          var bgArray = ['http://i.imgur.com/7GC3ouD.jpg'];
           var bg = bgArray[Math.floor(Math.random() * bgArray.length)];
           document.getElementById("header-container").style.backgroundImage = 'url('+ bg +')'
 });
@@ -59,6 +59,9 @@ function redirect_random() {
                     </form>
                 </div>
             </div>
+        </div>
+        <div id="footer_index" class="footer" style="position: absolute; right: 0; left: 0; bottom: 0; text-align: center; padding: 1rem; opacity: 0.5;">
+            <p>lolxd isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing <i>League of Legends</i>. <i>League of Legends</i> and Riot Games are trademarks or registered trademarks of Riot Games, Inc. <i>League of Legends</i> © Riot Games, Inc.</p>
         </div>
     </header>
 {% endblock %}
