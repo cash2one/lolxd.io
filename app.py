@@ -25,6 +25,7 @@ def get_teams(region, summoner_name):
             gg_avg_kills : double
             gg_avg_deaths : double
             gg_avg_assists : double
+            keystone_id : int
             spell_1 : str
             spell_2 : str
         }
@@ -43,6 +44,7 @@ def get_teams(region, summoner_name):
             'summoner_name': player['summonerName'],
             'champ': riot.get_champion_name(champion_id),
             'champ_key': riot.get_champion_key(champion_id),
+            'keystone_id': riot.get_keystone_id(player['masteries']),
             'spell_1': riot.get_summoner_spell_key(player['spell1Id']),
             'spell_2': riot.get_summoner_spell_key(player['spell2Id'])
         }
@@ -101,4 +103,4 @@ def random_look_up():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5014)
