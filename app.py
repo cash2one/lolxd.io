@@ -12,6 +12,8 @@ def get_teams(region, summoner_name):
     A player dictionary looks like this:
         player {
             summoner_name : str
+            tier : str
+            division : str
             season_wins : int
             season_losses : int
             total_wins : int  #: all queues and seasons
@@ -38,10 +40,14 @@ def get_teams(region, summoner_name):
     summoner_name = summoner_name.lower().replace(' ', '')
     summoner_id = riot.get_summoner_id(region, summoner_name)
     current_game = riot.get_current_game(region, summoner_id)
+    ranking_dict = riot.get_ranking(region, [player['summonerId'] for player in current_game['participants']])
     for player in current_game['participants']:
         champion_id = player['championId']
+        tier, division = ranking_dict[player['summonerId']]
         player_dict = {
             'summoner_name': player['summonerName'],
+            'tier': tier,
+            'division': division,
             'champ': riot.get_champion_name(champion_id),
             'champ_key': riot.get_champion_key(champion_id),
             'keystone_id': riot.get_keystone_id(player['masteries']),
