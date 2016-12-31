@@ -40,10 +40,10 @@ def get_teams(region, summoner_name):
     summoner_name = summoner_name.lower().replace(' ', '')
     summoner_id = riot.get_summoner_id(region, summoner_name)
     current_game = riot.get_current_game(region, summoner_id)
-    ranking_dict = riot.get_ranking(region, map(str,[player['summonerId'] for player in current_game['participants']]))
+    ranking_dict = riot.get_ranking(region, map(str, [player['summonerId'] for player in current_game['participants']]))
     for player in current_game['participants']:
         champion_id = player['championId']
-        tier, division = ranking_dict[player['summonerId']]
+        tier, division = ranking_dict[str(player['summonerId'])]
         player_dict = {
             'summoner_name': player['summonerName'],
             'tier': tier,
@@ -109,4 +109,4 @@ def random_look_up():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5014)
+    app.run(debug=True, port=5016)
