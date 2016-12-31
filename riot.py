@@ -128,9 +128,9 @@ def get_champion_key(champion_id, version='v1.2'):
     return static_request(f'champion/{champion_id}', version)['key']
 
 
-def get_summoner_spell_name(spell_id, version='v1.2'):
+def get_summoner_spell_key(spell_id, version='v1.2'):
     """Return the name of a summoner spell.
 
     :rtype: str
     """
-    return static_request(f'summoner-spell/{spell_id}', version)['name']
+    return static_request(f'summoner-spell/{spell_id}', version)['key']

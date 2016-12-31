@@ -43,8 +43,8 @@ def get_teams(region, summoner_name):
             'summoner_name': player['summonerName'],
             'champ': riot.get_champion_name(champion_id),
             'champ_key': riot.get_champion_key(champion_id),
-            'spell_1': riot.get_summoner_spell_name(player['spell1Id']),
-            'spell_2': riot.get_summoner_spell_name(player['spell2Id'])
+            'spell_1': riot.get_summoner_spell_key(player['spell1Id']),
+            'spell_2': riot.get_summoner_spell_key(player['spell2Id'])
         }
         ranked_stats = riot.get_ranked_stats(region, player['summonerId'])
         for champ in ranked_stats['champions']:
