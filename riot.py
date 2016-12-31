@@ -155,5 +155,5 @@ def get_ranking(region, list_of_ids):
     :rtype: dict
     """
     ids = ','.join(list_of_ids)
-    r = api_request(region, f'league/by-summoner/{ids}/entry', 'v2.5')
+    r = api_request(region, 'v2.5', f'league/by-summoner/{ids}/entry')
     return {ID: (r[ID][0]['tier'], r[ID][0]['entries'][0]['division']) for ID in r.keys()}
