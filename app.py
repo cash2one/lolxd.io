@@ -62,6 +62,12 @@ def get_teams(region, summoner_name):
             player_dict['avg_deaths'] = round(champ['stats']['totalDeathsPerSession'] / champ_games, 1)
             player_dict['avg_assists'] = round(champ['stats']['totalAssists'] / champ_games, 1)
             break
+        else:
+            player_dict['champ_wins'] = 0
+            player_dict['champ_losses'] = 0
+            player_dict['avg_kills'] = 0
+            player_dict['avg_deaths'] = 0
+            player_dict['avg_assists'] = 0
         avg_stats = champion_gg.get_stats()
         player_dict['gg_avg_kills'] = avg_stats[riot.get_champion_name(champion_id)]['kills']
         player_dict['gg_avg_deaths'] = avg_stats[riot.get_champion_name(champion_id)]['deaths']
@@ -95,4 +101,4 @@ def random_look_up():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5009)
+    app.run(debug=True)
