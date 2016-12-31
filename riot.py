@@ -145,3 +145,15 @@ def get_keystone_id(iterable_of_masteries):
     for mastery in iterable_of_masteries:
         if mastery['masteryId'] in keystone_ids:
             return mastery['masteryId']
+
+
+def get_ranking(region, list_of_ids):
+    """Return a dict with each id in *list_of_ids* as keys, and a tuple of (tier, division) as value.
+
+    Example tuple = ('DIAMOND', 'III')
+
+    :rtype: dict
+    """
+    ids = ','.join(list_of_ids)
+    r = api_request(region, f'league/by-summoner/{ids}/entry', 'v2.5')
+    return {ID: (r[ID][0]['tier'], r[ID][0]['entries'][0]['division']) for ID in r.keys()}
