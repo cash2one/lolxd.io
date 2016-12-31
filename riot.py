@@ -30,6 +30,7 @@ platforms = {
     'jp': 'JP1'
 }
 
+keystone_ids = (6161, 6162, 6164, 6361, 6362, 6363, 6261, 6262, 6263)
 # region_cycle = itertools.cycle(platforms.keys())
 
 
@@ -134,3 +135,13 @@ def get_summoner_spell_key(spell_id, version='v1.2'):
     :rtype: str
     """
     return static_request(f'summoner-spell/{spell_id}', version)['key']
+
+
+def get_keystone_id(iterable_of_masteries):
+    """Return the id of the keystone mastery in an iterable of masteries.
+
+    Each mastery should be a dictionary with the keys 'masteryId' and 'rank'.
+    """
+    for mastery in iterable_of_masteries:
+        if mastery['masteryId'] in keystone_ids:
+            return mastery['masteryId']
