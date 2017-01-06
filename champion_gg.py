@@ -44,8 +44,8 @@ def get_stats():
             ...
         }
     :Usage:
-        relevant_stats['name']['attribute'] #Returns the attribute of a champion with a given name
-        relevant_stats['name'] #Returns all attributes for a champion with a given name
+        relevant_stats['name']['attribute'] # Returns the attribute of a champion with a given name
+        relevant_stats['name'] # Returns all attributes for a champion with a given name
     """
     all_champions = api_call('stats')
     relevant_stats = {}

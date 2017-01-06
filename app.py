@@ -73,6 +73,7 @@ def get_teams(region, summoner_name):
             player_dict['avg_kills'] = round(champ['stats']['totalChampionKills'] / champ_games, 1)
             player_dict['avg_deaths'] = round(champ['stats']['totalDeathsPerSession'] / champ_games, 1)
             player_dict['avg_assists'] = round(champ['stats']['totalAssists'] / champ_games, 1)
+            player_dict['winrate'] = round(player_dict['champ_wins'] / player_dict['champ_losses'], 1)
             break
         else:
             player_dict['champ_wins'] = 0
@@ -81,9 +82,10 @@ def get_teams(region, summoner_name):
             player_dict['avg_deaths'] = 0
             player_dict['avg_assists'] = 0
         avg_stats = champion_gg.get_stats()
-        player_dict['gg_avg_kills'] = avg_stats[riot.get_champion_name(champion_id)]['kills']
-        player_dict['gg_avg_deaths'] = avg_stats[riot.get_champion_name(champion_id)]['deaths']
-        player_dict['gg_avg_assists'] = avg_stats[riot.get_champion_name(champion_id)]['assists']
+        player_dict['gg_avg_kills'] = avg_stats[player_dict['champ']]['kills']
+        player_dict['gg_avg_deaths'] = avg_stats[player_dict['champ']]['deaths']
+        player_dict['gg_avg_assists'] = avg_stats[player_dict['champ']]['assists']
+        player_dict['gg_avg_winrate'] = avg_stats[player_dict['champ']]['winrate']
         player_dict['deviation_kills'] = round(player_dict['avg_kills'] - player_dict['gg_avg_kills'], 1)
         player_dict['deviation_deaths'] = round(player_dict['avg_deaths'] - player_dict['gg_avg_deaths'], 1)
         player_dict['deviation_assists'] = round(player_dict['avg_assists'] - player_dict['gg_avg_deaths'], 1)
