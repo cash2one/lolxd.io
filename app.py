@@ -66,9 +66,9 @@ def get_teams(region, summoner_name):
             'division': division,
             'champ': riot.get_champion_name(champion_id),
             'champ_key': riot.get_champion_key(champion_id),
-            'keystone_id': riot.get_keystone_id(player['masteries']),
-            'spell_1': riot.get_summoner_spell_key(player['spell1Id']),
-            'spell_2': riot.get_summoner_spell_key(player['spell2Id'])
+            'keystone_id': riot.get_keystone_id(participant['masteries']),
+            'spell_1': riot.get_summoner_spell_key(participant['spell1Id']),
+            'spell_2': riot.get_summoner_spell_key(participant['spell2Id'])
         }
         ranked_stats = riot.get_ranked_stats(region, participant['summonerId'])
         for champ in ranked_stats['champions']:
