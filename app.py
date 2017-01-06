@@ -6,6 +6,11 @@ import champion_gg
 app = Flask(__name__)
 
 
+def percentage(a, b):
+    """Return a 1 point decimal float representing a% of a + b."""
+    return round(a / (a + b) * 100, 1)
+
+
 def get_teams(region, summoner_name):
     """Return two lists representing the players on blue and red team respectively.
 
@@ -44,10 +49,13 @@ def get_teams(region, summoner_name):
     """
     blue_team = []
     red_team = []
+
     summoner_name = summoner_name.lower().replace(' ', '')
     summoner_id = riot.get_summoner_id(region, summoner_name)
     current_game = riot.get_current_game(region, summoner_id)
-    ranking_dict = riot.get_ranking(region, [player['summonerId'] for player in current_game['participants']])
+    summoner_ids = [player['summonerId'] for player in current_game['participants']]
+    ranking_dict = riot.get_ranking(region, summoner_ids)
+
     for player in current_game['participants']:
         champion_id = player['championId']
         summoner_id = player['summonerId']
@@ -69,7 +77,7 @@ def get_teams(region, summoner_name):
                 player_dict['season_losses'] = champ['stats']['totalSessionsLost']
                 player_dict['winrate'] = 0
                 if player_dict['season_wins']:
-                    player_dict['winrate'] = round(player_dict['season_wins'] / (player_dict['season_wins'] + player_dict['season_losses']) * 100, 1)
+                    player_dict['winrate'] = percentage(player_dict['season_wins'], player_dict['season_losses'])
                 break
         for champ in ranked_stats['champions']:
             if not champ['id'] == champion_id:
@@ -82,7 +90,7 @@ def get_teams(region, summoner_name):
             player_dict['avg_assists'] = round(champ['stats']['totalAssists'] / champ_games, 1)
             player_dict['champ_winrate'] = 0
             if player_dict['champ_wins']:
-                player_dict['champ_winrate'] = round(player_dict['champ_wins'] / (player_dict['champ_wins'] + player_dict['champ_losses']) * 100, 1)
+                player_dict['champ_winrate'] = percentage(player_dict['champ_wins'], player_dict['champ_losses'])
             break
         else:
             player_dict['champ_wins'] = 0
