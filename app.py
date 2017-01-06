@@ -16,11 +16,13 @@ def get_teams(region, summoner_name):
             division : str
             season_wins : int
             season_losses : int
+            winrate : double
             total_wins : int  #: all queues and seasons
             champ : str
             champ_key : str
             champ_wins : int
             champ_losses : int
+            champ_winrate : double
             avg_kills : double
             avg_deaths : double
             avg_assists : double
@@ -65,6 +67,9 @@ def get_teams(region, summoner_name):
             if champ['id'] == 0:
                 player_dict['season_wins'] = champ['stats']['totalSessionsWon']
                 player_dict['season_losses'] = champ['stats']['totalSessionsLost']
+                player_dict['winrate'] = 0
+                if player_dict['season_wins']:
+                    player_dict['winrate'] = (player_dict['season_wins'] + player_dict['season_losses']) / player_dict['season_wins']
                 break
         for champ in ranked_stats['champions']:
             if not champ['id'] == champion_id:
@@ -75,10 +80,9 @@ def get_teams(region, summoner_name):
             player_dict['avg_kills'] = round(champ['stats']['totalChampionKills'] / champ_games, 1)
             player_dict['avg_deaths'] = round(champ['stats']['totalDeathsPerSession'] / champ_games, 1)
             player_dict['avg_assists'] = round(champ['stats']['totalAssists'] / champ_games, 1)
-            if player_dict['champ_losses'] == 0:
-                player_dict['winrate'] = 100
-            else:
-                player_dict['winrate'] = round((player_dict['champ_wins'] + player_dict['champ_losses']) / player_dict['champ_wins'], 1)
+            player_dict['champ_winrate'] = 100
+            if player_dict['champ_wins']:
+                player_dict['champ_winrate'] = round((player_dict['champ_wins'] + player_dict['champ_losses']) / player_dict['champ_wins'], 1)
             break
         else:
             player_dict['champ_wins'] = 0
