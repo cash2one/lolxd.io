@@ -69,7 +69,7 @@ def get_teams(region, summoner_name):
                 player_dict['season_losses'] = champ['stats']['totalSessionsLost']
                 player_dict['winrate'] = 0
                 if player_dict['season_wins']:
-                    player_dict['winrate'] = (player_dict['season_wins'] + player_dict['season_losses']) / player_dict['season_wins']
+                    player_dict['winrate'] = round((player_dict['season_wins'] + player_dict['season_losses']) / player_dict['season_wins'], 1)
                 break
         for champ in ranked_stats['champions']:
             if not champ['id'] == champion_id:
