@@ -78,7 +78,7 @@ def get_teams(region, summoner_name):
             if player_dict['champ_losses'] == 0:
                 player_dict['winrate'] = 100
             else:
-                player_dict['winrate'] = round(player_dict['champ_wins'] / player_dict['champ_losses'], 1)
+                player_dict['winrate'] = round((player_dict['champ_wins'] + player_dict['champ_losses']) / player_dict['champ_wins'], 1)
             break
         else:
             player_dict['champ_wins'] = 0
