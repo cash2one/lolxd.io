@@ -24,9 +24,11 @@ def get_teams(region, summoner_name):
             avg_kills : double
             avg_deaths : double
             avg_assists : double
+            winrate : double
             gg_avg_kills : double
             gg_avg_deaths : double
             gg_avg_assists : double
+            gg_avg_winrate : double
             deviation_kills : double
             deviation_deaths : double
             deviation_assists : double
@@ -73,7 +75,10 @@ def get_teams(region, summoner_name):
             player_dict['avg_kills'] = round(champ['stats']['totalChampionKills'] / champ_games, 1)
             player_dict['avg_deaths'] = round(champ['stats']['totalDeathsPerSession'] / champ_games, 1)
             player_dict['avg_assists'] = round(champ['stats']['totalAssists'] / champ_games, 1)
-            player_dict['winrate'] = round(player_dict['champ_wins'] / player_dict['champ_losses'], 1)
+            if player_dict['champ_losses'] == 0:
+                player_dict['winrate'] = 100
+            else:
+                player_dict['winrate'] = round(player_dict['champ_wins'] / player_dict['champ_losses'], 1)
             break
         else:
             player_dict['champ_wins'] = 0
@@ -81,6 +86,7 @@ def get_teams(region, summoner_name):
             player_dict['avg_kills'] = 0
             player_dict['avg_deaths'] = 0
             player_dict['avg_assists'] = 0
+            player_dict['winrate'] = 50
         avg_stats = champion_gg.get_stats()
         player_dict['gg_avg_kills'] = avg_stats[player_dict['champ']]['kills']
         player_dict['gg_avg_deaths'] = avg_stats[player_dict['champ']]['deaths']
