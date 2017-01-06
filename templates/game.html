@@ -8,65 +8,71 @@ $(document).ready(function(){
 </script>
 {% endblock %}
 {% block content %}
-<h1 align="center">lolxd</h1>
+<h1 align="center" class="display-1">lolxd<small class="text-muted">lmao</small></h1>
 <hr id="blue_breaker">
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Name</th>
-      <th>Rank</th>
-      <th>Champion Stats</th>
-      <th>KDA</th>
-      <th>Ranked Stats</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for player in blue_team %}
-    <tr>
-      <td>
-        <img src="https://ddragon.leagueoflegends.com/cdn/5.14.1/img/champion/{{ player.champ_key }}.png" style="width:50px; height:50px">
-        <img src="http://ddragon.leagueoflegends.com/cdn/5.24.2/img/mastery/{{ player.keystone_id }}.png" style="width:32px; height:32px">
-        <img src="https://ddragon.leagueoflegends.com/cdn/5.24.2/img/spell/{{ player.spell_1 }}.png" style="width:23px; height:23px">
-        <img src="https://ddragon.leagueoflegends.com/cdn/5.24.2/img/spell/{{ player.spell_2 }}.png" style="width:23px; height:23px">
-      </td>
-      <td>{{ player.summoner_name }}</td>
-      <td><img src="/static/img/{{ player.tier }}.png"></td>
-      <td><span style="color:green;">{{ player.champ_wins }}</span>/<span style="color:red;">{{ player.champ_losses }}</span></td>
-      <td>{{ player.avg_kills }} / {{ player.avg_deaths }} / {{ player.avg_assists }}</td>
-      <td><span style="color:green;">{{ player.season_wins }}</span> / <span style="color:red;">{{ player.season_losses }}</span></td>
-    </tr>
-  {% endfor %}
-  </tbody>
-</table>
-<hr id="red_breaker">
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Name</th>
-      <th>Rank</th>
-      <th>Champion Stats</th>
-      <th>KDA</th>
-      <th>Ranked Stats</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for player in red_team %}
-    <tr>
-      <td>
-        <img src="https://ddragon.leagueoflegends.com/cdn/5.14.1/img/champion/{{ player.champ_key }}.png" style="width:50px; height:50px">
-        <img src="http://ddragon.leagueoflegends.com/cdn/5.24.2/img/mastery/{{ player.keystone_id }}.png" style="width:32px; height:32px">
-        <img src="https://ddragon.leagueoflegends.com/cdn/5.24.2/img/spell/{{ player.spell_1 }}.png" style="width:23px; height:23px">
-        <img src="https://ddragon.leagueoflegends.com/cdn/5.24.2/img/spell/{{ player.spell_2 }}.png" style="width:23px; height:23px">
-      </td>
-      <td>{{ player.summoner_name }}</td>
-      <td><img src="/static/img/{{ player.tier }}.png"></td>
-      <td><span style="color:green;">{{ player.champ_wins }}</span>/<span style="color:red;">{{ player.champ_losses }}</span></td>
-      <td>{{ player.avg_kills }}/{{ player.avg_deaths }}/{{ player.avg_assists }}</td>
-      <td><span style="color:green;">{{ player.season_wins }}</span>/<span style="color:red;">{{ player.season_losses }}</span></td>
-    </tr>
-  {% endfor %}
-  </tbody>
-</table>
+<div style="width: 80%" align="center">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Rank</th>
+        <th>Champion Stats</th>
+        <th>KDA</th>
+        <th>Ranked Stats</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for player in blue_team %}
+      <tr>
+        <td>
+          <img src="https://ddragon.leagueoflegends.com/cdn/5.14.1/img/champion/{{ player.champ_key }}.png" style="width:50px; height:50px">
+          <img src="http://ddragon.leagueoflegends.com/cdn/5.24.2/img/mastery/{{ player.keystone_id }}.png" style="width:32px; height:32px">
+          <img src="https://ddragon.leagueoflegends.com/cdn/5.24.2/img/spell/{{ player.spell_1 }}.png" style="width:23px; height:23px">
+          <img src="https://ddragon.leagueoflegends.com/cdn/5.24.2/img/spell/{{ player.spell_2 }}.png" style="width:23px; height:23px">
+        </td>
+        <td>{{ player.summoner_name }}</td>
+        <td><img src="/static/img/{{ player.tier }}.png" style="width:24px; height: 24px;">{{ player.tier }} {{ player.division }}</td>
+        <td><span style="color:green;">{{ player.champ_wins }}</span>/<span style="color:red;">{{ player.champ_losses }}</span></td>
+        <td>
+          <span data-toggle="tooltip" title="According to champion.gg, the average {{ player.champ }} gets {{ player.gg_avg_kills }} kills per game.">{{ player.avg_kills }} ({{ player.avg_kills - player.gg_avg_kills }}) </span>
+          /
+          <span data-toggle="tooltip" title="According to champion.gg, the average {{ player.champ }} dies {{ player.gg_avg_deaths }} times per game.">{{ player.avg_deaths }} ({{ player.avg_deaths - player.gg_avg_deaths }})</span>
+          /
+          <span data-toggle="tooltip" title="According to champion.gg, the average {{ player.champ }} gets {{ player.gg_avg_assists }} assists per game.">{{ player.avg_assists }} ({{ player.avg_assists - player.gg_avg_assists }})</span>
+        </td>
+        <td><span style="color:green;">{{ player.season_wins }}</span> / <span style="color:red;">{{ player.season_losses }}</span></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+    <hr>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Rank</th>
+        <th>Champion Stats</th>
+        <th>KDA</th>
+        <th>Ranked Stats</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for player in red_team %}
+      <tr>
+        <td>
+          <img src="https://ddragon.leagueoflegends.com/cdn/5.14.1/img/champion/{{ player.champ_key }}.png" style="width:50px; height:50px">
+          <img src="http://ddragon.leagueoflegends.com/cdn/5.24.2/img/mastery/{{ player.keystone_id }}.png" style="width:32px; height:32px">
+          <img src="https://ddragon.leagueoflegends.com/cdn/5.24.2/img/spell/{{ player.spell_1 }}.png" style="width:23px; height:23px">
+          <img src="https://ddragon.leagueoflegends.com/cdn/5.24.2/img/spell/{{ player.spell_2 }}.png" style="width:23px; height:23px">
+        </td>
+        <td>{{ player.summoner_name }}</td>
+        <td><img src="/static/img/{{ player.tier }}.png" style="width:18px; height: 18px;"><p>{{ player.tier }} {{ player.division }}</p></td>
+        <td><span style="color:green;">{{ player.champ_wins }}</span>/<span style="color:red;">{{ player.champ_losses }}</span></td>
+        <td>{{ player.avg_kills }}/{{ player.avg_deaths }}/{{ player.avg_assists }}</td>
+        <td><span style="color:green;">{{ player.season_wins }}</span>/<span style="color:red;">{{ player.season_losses }}</span></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}
