@@ -56,12 +56,12 @@ def get_teams(region, summoner_name):
     summoner_ids = [player['summonerId'] for player in current_game['participants']]
     ranking_dict = riot.get_ranking(region, summoner_ids)
 
-    for player in current_game['participants']:
-        champion_id = player['championId']
-        summoner_id = player['summonerId']
+    for participant in current_game['participants']:
+        champion_id = participant['championId']
+        summoner_id = participant['summonerId']
         tier, division = ranking_dict[summoner_id]
-        player_dict = {
-            'summoner_name': player['summonerName'],
+        player = {
+            'summoner_name': participant['summonerName'],
             'tier': tier,
             'division': division,
             'champ': riot.get_champion_name(champion_id),
@@ -70,48 +70,48 @@ def get_teams(region, summoner_name):
             'spell_1': riot.get_summoner_spell_key(player['spell1Id']),
             'spell_2': riot.get_summoner_spell_key(player['spell2Id'])
         }
-        ranked_stats = riot.get_ranked_stats(region, player['summonerId'])
+        ranked_stats = riot.get_ranked_stats(region, participant['summonerId'])
         for champ in ranked_stats['champions']:
             if champ['id'] == 0:
-                player_dict['season_wins'] = champ['stats']['totalSessionsWon']
-                player_dict['season_losses'] = champ['stats']['totalSessionsLost']
-                player_dict['winrate'] = 0
-                if player_dict['season_wins']:
-                    player_dict['winrate'] = percentage(player_dict['season_wins'], player_dict['season_losses'])
+                player['season_wins'] = champ['stats']['totalSessionsWon']
+                player['season_losses'] = champ['stats']['totalSessionsLost']
+                player['winrate'] = 0
+                if player['season_wins']:
+                    player['winrate'] = percentage(player['season_wins'], player['season_losses'])
                 break
         for champ in ranked_stats['champions']:
             if not champ['id'] == champion_id:
                 continue
-            player_dict['champ_wins'] = champ['stats']['totalSessionsWon']
-            player_dict['champ_losses'] = champ['stats']['totalSessionsLost']
-            champ_games = player_dict['champ_wins'] + player_dict['champ_losses']
-            player_dict['avg_kills'] = round(champ['stats']['totalChampionKills'] / champ_games, 1)
-            player_dict['avg_deaths'] = round(champ['stats']['totalDeathsPerSession'] / champ_games, 1)
-            player_dict['avg_assists'] = round(champ['stats']['totalAssists'] / champ_games, 1)
-            player_dict['champ_winrate'] = 0
-            if player_dict['champ_wins']:
-                player_dict['champ_winrate'] = percentage(player_dict['champ_wins'], player_dict['champ_losses'])
+            player['champ_wins'] = champ['stats']['totalSessionsWon']
+            player['champ_losses'] = champ['stats']['totalSessionsLost']
+            champ_games = player['champ_wins'] + player['champ_losses']
+            player['avg_kills'] = round(champ['stats']['totalChampionKills'] / champ_games, 1)
+            player['avg_deaths'] = round(champ['stats']['totalDeathsPerSession'] / champ_games, 1)
+            player['avg_assists'] = round(champ['stats']['totalAssists'] / champ_games, 1)
+            player['champ_winrate'] = 0
+            if player['champ_wins']:
+                player['champ_winrate'] = percentage(player['champ_wins'], player['champ_losses'])
             break
         else:
-            player_dict['champ_wins'] = 0
-            player_dict['champ_losses'] = 0
-            player_dict['avg_kills'] = 0
-            player_dict['avg_deaths'] = 0
-            player_dict['avg_assists'] = 0
-            player_dict['champ_winrate'] = 50
+            player['champ_wins'] = 0
+            player['champ_losses'] = 0
+            player['avg_kills'] = 0
+            player['avg_deaths'] = 0
+            player['avg_assists'] = 0
+            player['champ_winrate'] = 50
         avg_stats = champion_gg.get_stats()
-        player_dict['gg_avg_kills'] = avg_stats[player_dict['champ']]['kills']
-        player_dict['gg_avg_deaths'] = avg_stats[player_dict['champ']]['deaths']
-        player_dict['gg_avg_assists'] = avg_stats[player_dict['champ']]['assists']
-        player_dict['gg_avg_winrate'] = avg_stats[player_dict['champ']]['winrate']
-        player_dict['deviation_kills'] = round(player_dict['avg_kills'] - player_dict['gg_avg_kills'], 1)
-        player_dict['deviation_deaths'] = round(player_dict['gg_avg_deaths'] - player_dict['avg_deaths'], 1)
-        player_dict['deviation_assists'] = round(player_dict['avg_assists'] - player_dict['gg_avg_deaths'], 1)
+        player['gg_avg_kills'] = avg_stats[player['champ']]['kills']
+        player['gg_avg_deaths'] = avg_stats[player['champ']]['deaths']
+        player['gg_avg_assists'] = avg_stats[player['champ']]['assists']
+        player['gg_avg_winrate'] = avg_stats[player['champ']]['winrate']
+        player['deviation_kills'] = round(player['avg_kills'] - player['gg_avg_kills'], 1)
+        player['deviation_deaths'] = round(player['gg_avg_deaths'] - player['avg_deaths'], 1)
+        player['deviation_assists'] = round(player['avg_assists'] - player['gg_avg_deaths'], 1)
 
-        if player['teamId'] == 100:
-            blue_team.append(player_dict)
+        if participant['teamId'] == 100:
+            blue_team.append(player)
         else:
-            red_team.append(player_dict)
+            red_team.append(player)
     return blue_team, red_team
 
 
