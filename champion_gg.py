@@ -73,23 +73,23 @@ def get_item_set(champion_name):
     return items
 
 @lru_cache()
-def get_starting_items(self):
+def get_starting_items(champion_key):
     """
     Query the API for the most popular starting items for the given champion
 
     :rtype list of strings
     """
-    url = f'champion/{self.champion_name}/items/starters/mostPopular'
+    url = f'champion/{champion_key}/items/starters/mostPopular'
     items = api_call(url)[0]['items']
     # item_names = [riot.get_item_name(item) for item in items]
     return items
 
 
-def get_skill_order(self):
+def get_skill_order(champion_key):
     """
     Query the API for the most popular skill order for the given champion
 
     :rtype list of strings
     """
-    url = f'champion/{self.champion_name}/skills/mostPopular'
+    url = f'champion/{champion_key}/skills/mostPopular'
     return api_call(url)[0]['order']

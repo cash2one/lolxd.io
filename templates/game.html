@@ -39,7 +39,7 @@ $(document).ready(function(){
             <span data-toggle="tooltip" title="According to champion.gg, the average {{ player.champ }} gets {{ player.gg_avg_assists }} assists per game.">{{ player.avg_assists }} ({{ player.deviation_assists }})</span>
         </td>
         <td>
-            <span style="color:green;">{{ player.champ_wins }}</span> / <span style="color:red;">{{ player.champ_losses }}</span> ({{ player.champ_winrate }}%)
+            <span style="color:green;">{{ player.champ_wins }}</span> / <span style="color:red;">{{ player.champ_losses }}</span> <span data-toggle="tooltip" title="According to champion.gg, the average {{ player.champ }} has a winrate of {{ player.gg_avg_winrate }} %">({{ player.champ_winrate }}%)</span>
         </td>
         <td>
             <span style="color:green;">{{ player.season_wins }}</span> / <span style="color:red;">{{ player.season_losses }}</span> ({{ player.winrate }}%)
@@ -75,7 +75,7 @@ $(document).ready(function(){
             <span data-toggle="tooltip" title="According to champion.gg, the average {{ player.champ }} gets {{ player.gg_avg_assists }} assists per game.">{{ player.avg_assists }} ({{ player.deviation_assists }})</span>
         </td>
         <td>
-            <span style="color:green;">{{ player.champ_wins }}</span> / <span style="color:red;">{{ player.champ_losses }}</span> ({{ player.champ_winrate }}%)
+            <span style="color:green;">{{ player.champ_wins }}</span> / <span style="color:red;">{{ player.champ_losses }}</span> <span data-toggle="tooltip" title="According to champion.gg, the average {{ player.champ }} has a winrate of {{ player.gg_avg_winrate }} %">({{ player.champ_winrate }}%)</span>
         </td>
         <td>
             <span style="color:green;">{{ player.season_wins }}</span> / <span style="color:red;">{{ player.season_losses }}</span> ({{ player.winrate }}%)
@@ -85,9 +85,9 @@ $(document).ready(function(){
     </tbody>
   </table>
 </div>
-<!--<div>-->
-    <!--{% for item_id in items %}-->
-    <!--<p> <img src="https://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/{{ item_id }}.png"> </p>-->
-    <!--{% endfor %}-->
-<!--</div>-->
+<div>
+    {% for item_id in items %}
+    <p> <img src="https://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/{{ item_id }}.png"> </p>
+    {% endfor %}
+</div>
 {% endblock %}
