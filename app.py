@@ -116,12 +116,21 @@ def get_teams(region, summoner_name):
     return blue_team, red_team
 
 
-def get_build(summoner_name, blue_team, red_team):
+def get_recommended(summoner_name, blue_team, red_team):
     summoner_name = summoner_name.replace(" ", "").casefold()
     for player in itertools.chain(blue_team, red_team):
         if player['summoner_name'].replace(" ", "").casefold() == summoner_name:
-            items = champion_gg.get_item_set(player['champ_key'])
-            return items
+            champion_key = player['champ_key']
+            item_build = champion_gg.get_item_set(champion_key)
+            starting_items = champion_gg.get_starting_items(champion_key)
+            skill_order = champion_gg.get_skill_order(champion_key)
+
+            recommended = {
+                'item_build' : item_build,
+                'starting_items' : starting_items,
+                'skill_order' : skill_order
+            }
+            return recommended
 
 
 @app.route('/')
@@ -135,7 +144,7 @@ def look_up(region, summoner_name):
     and skill order according to www.champion.gg.
     """
     blue_team, red_team = get_teams(region, summoner_name)
-    items = get_build(summoner_name, blue_team, red_team)
+    items = get_recommended(summoner_name, blue_team, red_team)
     return render_template('game.html', region=region, summoner_name=summoner_name,
                            blue_team=blue_team, red_team=red_team, items=items)
 

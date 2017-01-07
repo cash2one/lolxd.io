@@ -84,7 +84,7 @@ def get_starting_items(champion_key):
     # item_names = [riot.get_item_name(item) for item in items]
     return items
 
-
+@lru_cache()
 def get_skill_order(champion_key):
     """
     Query the API for the most popular skill order for the given champion
