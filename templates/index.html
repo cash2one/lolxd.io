@@ -4,7 +4,13 @@
 $(document).ready(function() {
           var bgArray = ['http://i.imgur.com/7GC3ouD.jpg'];
           var bg = bgArray[Math.floor(Math.random() * bgArray.length)];
-          document.getElementById("header-container").style.backgroundImage = 'url('+ bg +')'
+          document.getElementById("header-container").style.backgroundImage = 'url('+ bg +')';
+          var body = document.getElementsByTagName("BODY")[0];
+          body.style.backgroundColor = "#CFA686"
+          setTimeout(function(){
+            $("#footer_index").fadeOut()
+        }, 1500)
+
 });
 </script>
 
