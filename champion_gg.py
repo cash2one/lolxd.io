@@ -79,7 +79,7 @@ def get_starting_items(champion_key):
 
     :rtype list of strings
     """
-    url = f'champion/{champion_key}/items/starters/mostPopular'
+    url = f'champion/{champion_key}/items/starters/mostWins'
     items = api_call(url)[0]['items']
     # item_names = [riot.get_item_name(item) for item in items]
     return items
@@ -91,5 +91,5 @@ def get_skill_order(champion_key):
 
     :rtype list of strings
     """
-    url = f'champion/{champion_key}/skills/mostPopular'
+    url = f'champion/{champion_key}/skills/mostWins'
     return api_call(url)[0]['order']

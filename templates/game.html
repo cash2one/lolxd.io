@@ -86,18 +86,26 @@ $(document).ready(function(){
   </table>
 </div>
 <div>
-    {% for item in items.item_build %}
-        <img src="https://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/{{ item }}.png">
-    {% endfor %}
-</div>
-<div>
+    <h4>Most Successful Starting Items: </h4>
     {% for item in items.starting_items %}
         <img src="https://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/{{ item }}.png">
+        <span class="glyphicon glyphicon-chevron-right"></span>
     {% endfor %}
 </div>
+<hr>
 <div>
+    <h4>Most Successful Build Path: </h4>
+    {% for item in items.item_build %}
+        <img src="https://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/{{ item }}.png">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+    {% endfor %}
+</div>
+<hr>
+<div>
+    <h4>Most Successful Skill Order: </h4>
     {% for skill in items.skill_order %}
-        <span style="padding-right: 5px">{{ skill }}</span>
+        <span style="padding-right: 3px; font-size: 20px; padding-left: 3px"><b>{{ skill }}</b></span>
+        <span class="glyphicon glyphicon-menu-right"></span>
     {% endfor %}
 </div>
 {% endblock %}
