@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 import riot
 import champion_gg
+import itertools
 
 
 app = Flask(__name__)
@@ -114,6 +115,15 @@ def get_teams(region, summoner_name):
             red_team.append(player)
     return blue_team, red_team
 
+#
+# def get_build(summoner_name, blue_team, red_team):
+#     for player in itertools.chain(blue_team, red_team):
+#         if player['summoner_name'] == summoner_name:
+#             items = champion_gg.get_item_set(player['champ_key'])
+#             return items
+#         else:
+#             continue
+
 
 @app.route('/')
 def home():
@@ -126,8 +136,9 @@ def look_up(region, summoner_name):
     and skill order according to www.champion.gg.
     """
     blue_team, red_team = get_teams(region, summoner_name)
+    items = get_build(summoner_name, blue_team, red_team)
     return render_template('game.html', region=region, summoner_name=summoner_name,
-                           blue_team=blue_team, red_team=red_team)
+                           blue_team=blue_team, red_team=red_team) #items=items)
 
 
 @app.route('/random')

@@ -60,19 +60,19 @@ def get_stats():
         }
     return relevant_stats
 
-
-def get_item_set(self):
+@lru_cache()
+def get_item_set(champion_name):
     """
     Query the API for the most winning item set for the given champion
 
     :rtype: list of strings
     """
-    url = f'champion/{self.champion_name}/items/finished/mostWins'
+    url = f'champion/{champion_name}/items/finished/mostWins'
     items = api_call(url)[0]['items']
-    item_names = [riot.get_item_name(item) for item in items]
-    return item_names
+    # item_names = [riot.get_item_name(item) for item in items]
+    return items
 
-
+@lru_cache()
 def get_starting_items(self):
     """
     Query the API for the most popular starting items for the given champion
@@ -81,8 +81,8 @@ def get_starting_items(self):
     """
     url = f'champion/{self.champion_name}/items/starters/mostPopular'
     items = api_call(url)[0]['items']
-    item_names = [riot.get_item_name(item) for item in items]
-    return item_names
+    # item_names = [riot.get_item_name(item) for item in items]
+    return items
 
 
 def get_skill_order(self):
