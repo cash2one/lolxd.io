@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+import requests
 import riot
 import champion_gg
 import itertools
@@ -126,9 +127,9 @@ def get_recommended(summoner_name, blue_team, red_team):
             skill_order = champion_gg.get_skill_order(champion_key)
 
             recommended = {
-                'item_build' : item_build,
-                'starting_items' : starting_items,
-                'skill_order' : skill_order
+                'item_build': item_build,
+                'starting_items': starting_items,
+                'skill_order': skill_order
             }
             return recommended
 
@@ -143,10 +144,13 @@ def look_up(region, summoner_name):
     """Render game.html with two lists (one of each team) and the recommended starting items, build path
     and skill order according to www.champion.gg.
     """
-    blue_team, red_team = get_teams(region, summoner_name)
-    items = get_recommended(summoner_name, blue_team, red_team)
-    return render_template('game.html', region=region, summoner_name=summoner_name,
-                           blue_team=blue_team, red_team=red_team, items=items)
+    try:
+        blue_team, red_team = get_teams(region, summoner_name)
+        items = get_recommended(summoner_name, blue_team, red_team)
+        return render_template('game.html', region=region, summoner_name=summoner_name,
+                               blue_team=blue_team, red_team=red_team, items=items)
+    except requests.exceptions.HTTPError:
+        return render_template('riot_error.html', region=region, summoner_name=summoner_name)
 
 
 @app.route('/random')
