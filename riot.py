@@ -68,7 +68,9 @@ def observer_mode_request(region, query):
 
 @lru_cache()
 def static_request(query, version):
-    """Make a request to lol-static-data. These requests does not count against your rate limit.
+    """Make a request to lol-static-data. The results are stored.
+
+    These requests does not count against your rate limit.
 
     :rtype: dict
     """
@@ -87,7 +89,7 @@ def get_summoner_id(region, summoner_name, version='v1.4'):
 
 
 def get_ranked_stats(region, summoner_id, version='v1.3'):
-    """Return the ranked stats of summoner_name.
+    """Return the ranked stats of summoner_id
 
     :rtype: dict
     """
@@ -106,7 +108,7 @@ def get_current_game(region, summoner_id):
 
 
 def get_item_name(item_id, version='v1.2'):
-    """Return the name of an item.
+    """Return the name of an item. This is a <static request>.
 
     :rtype: str
     """
@@ -114,7 +116,7 @@ def get_item_name(item_id, version='v1.2'):
 
 
 def get_champion_name(champion_id, version='v1.2'):
-    """Return the name of a champion.
+    """Return the name of a champion. This is a <static request>.
 
     :rtype: str
     """
@@ -122,7 +124,7 @@ def get_champion_name(champion_id, version='v1.2'):
 
 
 def get_champion_key(champion_id, version='v1.2'):
-    """Return the key of a champion.
+    """Return the key of a champion. This is a <static request>.
 
     :rtype: str
     """
@@ -130,7 +132,7 @@ def get_champion_key(champion_id, version='v1.2'):
 
 
 def get_summoner_spell_key(spell_id, version='v1.2'):
-    """Return the name of a summoner spell.
+    """Return the name of a summoner spell. This is a <static request>.
 
     :rtype: str
     """
