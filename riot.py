@@ -168,3 +168,9 @@ def get_ranking(region, list_of_ids):
             division = r[str(ID)][0]['entries'][0]['division']
         ranking_dict[ID] = (tier, division)
     return ranking_dict
+
+
+def get_previous_tiers(region, match_id):
+    """Return a dict with player id as key and previous season tier as value."""
+    r = api_request(region, 'v2.2', f'match/{match_id}')
+    return {player['participantId']: player['highestAchievedSeasonTier'] for player in r['participants']}
