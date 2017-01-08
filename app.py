@@ -53,7 +53,6 @@ def get_teams(region, summoner_name):
     blue_team = []
     red_team = []
 
-    summoner_name = summoner_name.lower().replace(' ', '')
     summoner_id = riot.get_summoner_id(region, summoner_name)
     current_game = riot.get_current_game(region, summoner_id)
     summoner_ids = [player['summonerId'] for player in current_game['participants']]
@@ -121,9 +120,8 @@ def get_teams(region, summoner_name):
 
 
 def get_recommended(summoner_name, blue_team, red_team):
-    summoner_name = summoner_name.replace(" ", "").casefold()
     for player in itertools.chain(blue_team, red_team):
-        if player['summoner_name'].replace(" ", "").casefold() == summoner_name:
+        if player['summoner_name'].replace(' ', '').casefold() == summoner_name:
             champion_key = player['champ_key']
             item_build = champion_gg.get_item_set(champion_key)
             starting_items = champion_gg.get_starting_items(champion_key)
@@ -148,6 +146,7 @@ def look_up(region, summoner_name):
     and skill order according to www.champion.gg.
     """
     try:
+        summoner_name = summoner_name.replace(' ', '').casefold()
         blue_team, red_team = get_teams(region, summoner_name)
         items = get_recommended(summoner_name, blue_team, red_team)
         return render_template('game.html', region=region, summoner_name=summoner_name,
