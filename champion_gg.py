@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
     lolxd.champion_gg.py
     ~~~~~~~~~~~~~~~~~~~~
@@ -6,21 +5,21 @@
     This module contacts the Champion.gg API.
     Found at http://api.champion.gg/
 
-    :copyright: (c) 2016 by Mads Damgaard and Carl Bordum Hansen.
+    :author: Mads Damgaard Pedersen
+    :copyright: (c) 2016 by Mads Damgaard Pedersen and Carl Bordum Hansen.
     :license: MIT, see LICENSE for more details.
 """
 
 import config
 import requests
-import riot
 from functools import lru_cache
 
 API_KEY = config.CHAMPION_GG_API_KEY
 
-
 def api_call(query):
-    """Request the json object of a call to the API.
+    """Return json object of a call to the API.
 
+    :param query: string containing the necessary elements to complete the URL
     :rtype: dict
     """
     url = f'http://api.champion.gg/{query}?api_key={API_KEY}'
@@ -31,7 +30,11 @@ def api_call(query):
 
 @lru_cache()
 def get_stats():
-    """Query api for relevant stats for all champions.
+    """Return relevant stats for all champions.
+
+    :usage:
+    relevant_stats['name']['attribute'] # Returns the 'attribute' of a champion with a given 'name'
+    relevant_stats['name'] # Returns all attributes for a champion with a given 'name'
 
     :rtype: a dictionary of dictionaries, relevant_stats:
         relevant_stats{
@@ -43,9 +46,6 @@ def get_stats():
             }
             ...
         }
-    :Usage:
-        relevant_stats['name']['attribute'] # Returns the attribute of a champion with a given name
-        relevant_stats['name'] # Returns all attributes for a champion with a given name
     """
     all_champions = api_call('stats')
     relevant_stats = {}
@@ -60,11 +60,13 @@ def get_stats():
         }
     return relevant_stats
 
+
 @lru_cache()
 def get_item_set(champion_name):
     """
-    Query the API for the most winning item set for the given champion
+    Return the most winning item set for the given champion.
 
+    :param champion_name: name of a champion
     :rtype: list of strings
     """
     url = f'champion/{champion_name}/items/finished/mostWins'
@@ -72,24 +74,28 @@ def get_item_set(champion_name):
     # item_names = [riot.get_item_name(item) for item in items]
     return items
 
+
 @lru_cache()
 def get_starting_items(champion_key):
     """
-    Query the API for the most popular starting items for the given champion
+    Return the most winning starting items for the given champion.
 
-    :rtype list of strings
+    :param champion_key: the key corresponding to a champion
+    :rtype: list of strings
     """
     url = f'champion/{champion_key}/items/starters/mostWins'
     items = api_call(url)[0]['items']
     # item_names = [riot.get_item_name(item) for item in items]
     return items
 
+
 @lru_cache()
 def get_skill_order(champion_key):
     """
-    Query the API for the most popular skill order for the given champion
+    Return the most winning skill order for the given champion.
 
-    :rtype list of strings
+    :param champion_key: the key corresponding to a champion
+    :rtype: list of strings
     """
     url = f'champion/{champion_key}/skills/mostWins'
     return api_call(url)[0]['order']

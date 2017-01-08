@@ -120,17 +120,26 @@ def get_teams(region, summoner_name):
 
 
 def get_recommended(summoner_name, blue_team, red_team):
+    """
+    Return the dictionary recommended:
+    recommended {
+        item_build : list of strings containing item ids for the most winning build
+        starting_items : list of strings containing item ids for the most winning starting items
+        skill_order : list of strings that each represent a skill
+    }
+
+    :param summoner_name: name of one summoner in the game
+    :param blue_team: list of dictionaries for each player
+    :param red_team: list of dictionaries for each player
+    :rtype: dictionary of lists
+    """
     for player in itertools.chain(blue_team, red_team):
         if player['summoner_name'].replace(' ', '').casefold() == summoner_name:
             champion_key = player['champ_key']
-            item_build = champion_gg.get_item_set(champion_key)
-            starting_items = champion_gg.get_starting_items(champion_key)
-            skill_order = champion_gg.get_skill_order(champion_key)
-
             recommended = {
-                'item_build': item_build,
-                'starting_items': starting_items,
-                'skill_order': skill_order
+                'item_build': champion_gg.get_item_set(champion_key),
+                'starting_items': champion_gg.get_starting_items(champion_key),
+                'skill_order': champion_gg.get_skill_order(champion_key)
             }
             return recommended
 

@@ -32,7 +32,7 @@ $(document).ready(function(){
           <img src="https://ddragon.leagueoflegends.com/cdn/6.24.1/img/spell/{{ player.spell_2 }}.png" style="width:23px; height:23px">
         </td>
         <td>{{ player.summoner_name }}</td>
-        <td><img src="/static/img/{{ player.tier }}.png" style="width:24px; height: 24px;">{{ player.tier }} {{ player.division }}</td>
+        <td><img src="/static/img/{{ player.tier }}.png" style="width:24px; height: 24px;"> {{ player.tier }} {{ player.division }}>
         <td>
             <span data-toggle="tooltip" title="According to champion.gg, the average {{ player.champ }} gets {{ player.gg_avg_kills }} kills per game.">{{ player.avg_kills }} ({{ player.deviation_kills }}) </span>
             <span data-toggle="tooltip" title="According to champion.gg, the average {{ player.champ }} dies {{ player.gg_avg_deaths }} times per game.">{{ player.avg_deaths }} ({{ player.deviation_deaths }})</span>
