@@ -21,7 +21,6 @@ def get_teams(region, summoner_name):
             summoner_name : str
             tier : str
             division : str
-            previous_tier : str
             season_wins : int
             season_losses : int
             winrate : double
@@ -57,7 +56,6 @@ def get_teams(region, summoner_name):
     current_game = riot.get_current_game(region, summoner_id)
     summoner_ids = [player['summonerId'] for player in current_game['participants']]
     ranking_dict = riot.get_ranking(region, summoner_ids)
-    previous_tiers = riot.get_previous_tiers(region, current_game['gameID'])
 
     for participant in current_game['participants']:
         champion_id = participant['championId']
@@ -67,7 +65,6 @@ def get_teams(region, summoner_name):
             'summoner_name': participant['summonerName'],
             'tier': tier,
             'division': division,
-            'previous_tier': previous_tiers[summoner_id],
             'champ': riot.get_champion_name(champion_id),
             'champ_key': riot.get_champion_key(champion_id),
             'keystone_id': riot.get_keystone_id(participant['masteries']),
