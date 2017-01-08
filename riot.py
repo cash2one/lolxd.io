@@ -1,22 +1,26 @@
-# -*- coding: utf-8 -*-
 """
     lolxd.riot
     ~~~~~~~~~~
 
-    This module contacts the official League of Legends API.
+    This module contacts the official Riot Games API.
 
-    :copyright: (c) 2016 by Mads Damgaard and Carl Bordum Hansen.
-    :license: MIT, see LICENSE for more details.
+    For a full API reference, refer to https://developer.riotgames.com/api/methods.
+
+    :author: Carl Bordum Hansen
+    :copyright: (c) 2016 by Mads Damgaard and Carl Bordum Hansen
+    :license: MIT, see LICENSE for more details
 """
+
 from functools import lru_cache
-import itertools
 import requests
 import config
 
 
 API_KEY = config.RIOT_API_KEY
 
-platforms = {
+KEYSTONE_IDS = (6161, 6162, 6164, 6361, 6362, 6363, 6261, 6262, 6263)
+
+PLATFORMS = {
     'br': 'BR1',
     'eune': 'EUN1',
     'euw': 'EUW1',
@@ -30,12 +34,11 @@ platforms = {
     'jp': 'JP1'
 }
 
-keystone_ids = (6161, 6162, 6164, 6361, 6362, 6363, 6261, 6262, 6263)
-# region_cycle = itertools.cycle(platforms.keys())
 
-
-def base_request(query, proxy, **kwargs):
+def _base_request(query, proxy, **kwargs):
     """Make a request to the Riot API.
+
+    The request will be sent at https://*proxy*.api.pvp.net/*query*?API_KEY&*kwargs*.
 
     :rtype: dict
     """
@@ -49,21 +52,21 @@ def base_request(query, proxy, **kwargs):
 
 
 def api_request(region, version, query):
-    """Make a request to the RIOT API at the URL '/api/lol/'.
+    """Make a request to any of the methods starting with '/api/lol/'.
 
     :rtype: dict
     """
     url = f'api/lol/{region}/{version}/{query}'
-    return base_request(url, region)
+    return _base_request(url, region)
 
 
 def observer_mode_request(region, query):
-    """Make a request to the Riot API at the URL '/observer-mode/rest/'.
+    """Make a request to any of the methods starting with 'observer-mode/rest/'.
 
     :rtype: dict
     """
     url = f'observer-mode/rest/{query}'
-    return base_request(url, region)
+    return _base_request(url, region)
 
 
 @lru_cache()
@@ -74,22 +77,21 @@ def static_request(query, version):
 
     :rtype: dict
     """
-    region = 'euw'  # next(region_cycle)
-    return base_request(f'api/lol/static-data/{region}/{version}/{query}', 'global')
+    return _base_request(f'api/lol/static-data/euw/{version}/{query}', 'global')
 
 
 def get_summoner_id(region, summoner_name, version='v1.4'):
-    """Return the corresponding summoner ID.
+    """Return the summoner id of *summoner_name* by contacting the <summoner> API.
 
     :rtype: int
     """
     query = f'summoner/by-name/{summoner_name}'
     r = api_request(region, version, query)
-    return r[summoner_name.lower()]['id']
+    return r[summoner_name]['id']
 
 
 def get_ranked_stats(region, summoner_id, version='v1.3'):
-    """Return the ranked stats of summoner_id
+    """Return the ranked stats of *summoner_id* by contacting the <stats> API.
 
     :rtype: dict
     """
@@ -98,17 +100,17 @@ def get_ranked_stats(region, summoner_id, version='v1.3'):
 
 
 def get_current_game(region, summoner_id):
-    """Return all available information on current game.
+    """Return all available information on current game as provided by the <current-game> API.
 
     :rtype: dict
     """
-    platform_id = platforms[region]
+    platform_id = PLATFORMS[region]
     query = f'consumer/getSpectatorGameInfo/{platform_id}/{summoner_id}'
     return observer_mode_request(region, query)
 
 
 def get_item_name(item_id, version='v1.2'):
-    """Return the name of an item. This is a <static request>.
+    """Return the name of an item. This is a <static_request>.
 
     :rtype: str
     """
@@ -116,7 +118,7 @@ def get_item_name(item_id, version='v1.2'):
 
 
 def get_champion_name(champion_id, version='v1.2'):
-    """Return the name of a champion. This is a <static request>.
+    """Return the name of a champion. This is a <static_request>.
 
     :rtype: str
     """
@@ -124,7 +126,7 @@ def get_champion_name(champion_id, version='v1.2'):
 
 
 def get_champion_key(champion_id, version='v1.2'):
-    """Return the key of a champion. This is a <static request>.
+    """Return the key of a champion. This is a <static_request>.
 
     :rtype: str
     """
@@ -132,7 +134,7 @@ def get_champion_key(champion_id, version='v1.2'):
 
 
 def get_summoner_spell_key(spell_id, version='v1.2'):
-    """Return the name of a summoner spell. This is a <static request>.
+    """Return the name of a summoner spell. This is a <static_request>.
 
     :rtype: str
     """
@@ -143,9 +145,10 @@ def get_keystone_id(iterable_of_masteries):
     """Return the id of the keystone mastery in an iterable of masteries.
 
     Each mastery should be a dictionary with the keys 'masteryId' and 'rank'.
+    This function does not actually contact the Riot API, but is here for completeness.
     """
     for mastery in iterable_of_masteries:
-        if mastery['masteryId'] in keystone_ids:
+        if mastery['masteryId'] in KEYSTONE_IDS:
             return mastery['masteryId']
 
 
