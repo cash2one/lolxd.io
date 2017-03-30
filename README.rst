@@ -1,7 +1,7 @@
 ******************************
-`<lolxd http://www.lolxd.io>`_
+`lolxd <http://www.lolxd.io>`_
 ******************************
-*lolxd* is a small, open-source web service used to gain information about your opponents in *League of Legends*.
+lolxd is a small, open-source web service used to gain information about your opponents in *League of Legends*.
 
 Develop on your machine::
 
@@ -15,7 +15,7 @@ Develop on your machine::
 
 
 Stack
-*****
+=====
 * Python 3.6
 * flask
 * requests
@@ -23,7 +23,7 @@ Stack
 
 
 Contributing
-************
+============
 We highly encourage everyone to contribute. Here is a few of the ways, you can contribute:
 * Suggest a new feature
 * Implement a new feature
