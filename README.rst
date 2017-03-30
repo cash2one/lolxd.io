@@ -14,6 +14,8 @@ Develop on your machine::
     # the app is now running at localhost:5000
 
 
+
+
 Stack
 =====
 * Python 3.6
@@ -22,9 +24,12 @@ Stack
 * HTML5 & CSS3
 
 
+
+
 Contributing
 ============
 We highly encourage everyone to contribute. Here is a few of the ways, you can contribute:
+
 * Suggest a new feature
 * Implement a new feature
 * Improve documentation
